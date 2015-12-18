@@ -1,9 +1,12 @@
 package com.sothree.slidinguppanel.demo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,23 +26,34 @@ import android.widget.Toast;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+import com.sothree.slidinguppanel.demo.adapter.RecyclerAdapter;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class DemoActivity extends ActionBarActivity {
+public class DemoActivity extends AppCompatActivity {
     private static final String TAG = "DemoActivity";
-
+    RecyclerView mRecyclerView;
     private SlidingUpPanelLayout mLayout;
+    int offset = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        int srceenHeight = wm.getDefaultDisplay().getHeight();
+
 
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
 
         ListView lv = (ListView) findViewById(R.id.list);
+        mRecyclerView = (RecyclerView) findViewById(R.id.rvUserProfile);
+//        ListView lv2 = (ListView) findViewById(R.id.list2);
+//        LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) lv2.getLayoutParams(); //取控件textView当前的布局参数
+//        linearParams.height = srceenHeight;// 控件的高强制设成20
+//        lv2.setLayoutParams(linearParams);
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,12 +91,32 @@ public class DemoActivity extends ActionBarActivity {
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
         // array as a third parameter.
+        mRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                your_array_list );
+                your_array_list);
 
         lv.setAdapter(arrayAdapter);
+        mRecyclerView.setAdapter(new RecyclerAdapter(this, your_array_list));
+
+//        lv2.setAdapter(arrayAdapter);
+//        lv2.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {offset++;
+//                mLayout.onPanelDragged(100);
+//                mLayout.invalidate();
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//            }
+//        });
+
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setPanelSlideListener(new PanelSlideListener() {
@@ -150,7 +185,7 @@ public class DemoActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_toggle: {
                 if (mLayout != null) {
                     if (mLayout.getPanelState() != PanelState.HIDDEN) {
