@@ -15,7 +15,7 @@ import com.sothree.slidinguppanel.demo.R;
  * Simple scrolling behavior that monitors nested events in the scrolling
  * container to implement a quick hide/show for the attached view.
  */
-public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
+public class HeaderHideBehavior extends CoordinatorLayout.Behavior<View> {
 
     private static final int DIRECTION_UP = 1;
     private static final int DIRECTION_DOWN = -1;
@@ -34,11 +34,11 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
     private ObjectAnimator mAnimator;
 
     //Required to instantiate as a default behavior
-    public QuickHideBehavior() {
+    public HeaderHideBehavior() {
     }
 
     //Required to attach behavior via XML
-    public QuickHideBehavior(Context context, AttributeSet attrs) {
+    public HeaderHideBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray a = context.getTheme()
@@ -70,7 +70,7 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
             mScrollDistance = 0;
         } else if (dy < 0 && mScrollingDirection != DIRECTION_DOWN) {
             mScrollingDirection = DIRECTION_DOWN;
-//            mScrollDistance = 0;
+            mScrollDistance = 0;
         }
     }
 

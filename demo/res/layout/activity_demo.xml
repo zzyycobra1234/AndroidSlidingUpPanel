@@ -1,15 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".DemoActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".DemoActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        sothree:theme="@style/ActionBar"/>
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/sliding_layout"
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#fff"
         android:gravity="bottom"
         sothree:umanoDragView="@+id/dragView"
@@ -19,53 +29,6 @@
         sothree:umanoScrollableView="@+id/list"
         sothree:umanoShadowHeight="4dp">
 
-        <!-- MAIN CONTENT -->
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:orientation="vertical">-->
-        <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
-        <!--&lt;!&ndash;xmlns:sothree="http://schemas.android.com/apk/res-auto"&ndash;&gt;-->
-        <!--&lt;!&ndash;xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/main_toolbar"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:background="?attr/colorPrimary"&ndash;&gt;-->
-        <!--&lt;!&ndash;sothree:theme="@style/ActionBar"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="match_parent"/>&ndash;&gt;-->
-        <!--<TextView-->
-        <!--android:id="@+id/main"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_marginTop="?attr/actionBarSize"-->
-        <!--android:gravity="center"-->
-        <!--android:background="#ff886633"-->
-        <!--android:text="Main Content"-->
-        <!--android:clickable="true"-->
-        <!--android:focusable="false"-->
-        <!--android:focusableInTouchMode="true"-->
-        <!--android:textSize="16sp" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/main2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="?attr/actionBarSize"-->
-        <!--android:gravity="center"-->
-        <!--android:text="Main Content2"-->
-        <!--android:layout_below="@+id/main"-->
-        <!--android:clickable="true"-->
-        <!--android:focusable="false"-->
-        <!--android:focusableInTouchMode="true"-->
-        <!--android:textSize="16sp" />-->
-
-        <!--<ListView-->
-        <!--android:id="@+id/list2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-
-        <!--/>-->
-        <!--</RelativeLayout>-->
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_content"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -73,14 +36,14 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginTop="?attr/actionBarSize"
                 android:background="#778844"
                 android:text="1000"
                 android:textSize="20sp"
-                app:layout_behavior="com.sothree.slidinguppanel.demo.behavior.QuickHideBehavior"
+                app:layout_behavior="com.sothree.slidinguppanel.demo.behavior.HeaderHideBehavior"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
 
             <android.support.v7.widget.RecyclerView
@@ -99,7 +62,6 @@
             android:background="#fff"
             android:clickable="true"
             android:focusable="false"
-
             android:orientation="vertical">
 
             <LinearLayout
@@ -151,12 +113,5 @@
         </LinearLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/main_toolbar"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        sothree:theme="@style/ActionBar"/>
-</RelativeLayout>
+
+</LinearLayout>

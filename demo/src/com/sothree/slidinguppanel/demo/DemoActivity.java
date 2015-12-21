@@ -129,19 +129,6 @@ public class DemoActivity extends AppCompatActivity {
         lv.setAdapter(arrayAdapter);
         mRecyclerView.setAdapter(new RecyclerAdapter(this, your_array_list));
 
-//        lv2.setAdapter(arrayAdapter);
-//        lv2.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {offset++;
-//                mLayout.onPanelDragged(100);
-//                mLayout.invalidate();
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-//            }
-//        });
 
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
