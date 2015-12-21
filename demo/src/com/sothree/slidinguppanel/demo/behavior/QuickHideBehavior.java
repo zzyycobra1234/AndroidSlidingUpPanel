@@ -3,13 +3,10 @@ package com.sothree.slidinguppanel.demo.behavior;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.sothree.slidinguppanel.demo.R;
 
@@ -45,7 +42,7 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
         super(context, attrs);
 
         TypedArray a = context.getTheme()
-                .obtainStyledAttributes(new int[] {R.attr.actionBarSize});
+                .obtainStyledAttributes(new int[]{R.attr.actionBarSize});
         //Use half the standard action bar height
         mScrollThreshold = a.getDimensionPixelSize(0, 0) / 2;
         a.recycle();
@@ -73,7 +70,7 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
             mScrollDistance = 0;
         } else if (dy < 0 && mScrollingDirection != DIRECTION_DOWN) {
             mScrollingDirection = DIRECTION_DOWN;
-            mScrollDistance = 0;
+//            mScrollDistance = 0;
         }
     }
 
@@ -85,16 +82,18 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
                                int dxUnconsumed, int dyUnconsumed) {
         //Consumed distance is the actual distance traveled by the scrolling view
         mScrollDistance += dyConsumed;
-        if (mScrollDistance > mScrollThreshold
-                && mScrollTrigger != DIRECTION_UP) {
+        if (mScrollDistance > mScrollThreshold && mScrollTrigger != DIRECTION_UP) {
             //Hide the target view
             mScrollTrigger = DIRECTION_UP;
-            restartAnimator(child, getTargetHideValue(coordinatorLayout, child));
-        } else if (mScrollDistance < -mScrollThreshold
-                && mScrollTrigger != DIRECTION_DOWN) {
+            // TODO: 2015/12/21 0021  实现ListView 的 Item 向下的时候
+            restartAnimator(child,  -child.getHeight());
+
+        } else if (mScrollDistance < -mScrollThreshold && mScrollTrigger != DIRECTION_DOWN) {
             //Return the target view
             mScrollTrigger = DIRECTION_DOWN;
-            restartAnimator(child, 0f);
+            // TODO: 2015/12/21 0021  实现ListView 的 Item 向上的时候
+            restartAnimator(child,0f);
+
         }
     }
 
@@ -108,10 +107,12 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
         if (consumed) {
             if (velocityY > 0 && mScrollTrigger != DIRECTION_UP) {
                 mScrollTrigger = DIRECTION_UP;
-                restartAnimator(child, getTargetHideValue(coordinatorLayout, child));
+
+                restartAnimator(child, -child.getHeight());
+
             } else if (velocityY < 0 && mScrollTrigger != DIRECTION_DOWN) {
                 mScrollTrigger = DIRECTION_DOWN;
-                restartAnimator(child, 0f);
+                restartAnimator(child,0f);
             }
         }
 
@@ -133,13 +134,16 @@ public class QuickHideBehavior extends CoordinatorLayout.Behavior<View> {
         mAnimator.start();
     }
 
-    private float getTargetHideValue(ViewGroup parent, View target) {
-        if (target instanceof AppBarLayout) {
-            return -target.getHeight();
-        } else if (target instanceof FloatingActionButton) {
-            return parent.getHeight() - target.getTop();
-        }else {
-            return target.getHeight();
-        }
-    }
+
+
+
+//    private float getTargetHideValue(ViewGroup parent, View target) {
+//        if (target instanceof AppBarLayout) {
+//            return -target.getHeight();
+//        } else if (target instanceof FloatingActionButton) {
+//            return parent.getHeight() - target.getTop();
+//        } else {
+//            return target.getHeight();
+//        }
+//    }
 }

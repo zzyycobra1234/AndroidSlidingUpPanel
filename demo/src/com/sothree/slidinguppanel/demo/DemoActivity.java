@@ -85,7 +85,33 @@ public class DemoActivity extends AppCompatActivity {
                 "A",
                 "Child",
                 "Of",
+                "SlidingUpPanelLayout",
+                "This",
+                "Is",
+                "An",
+                "Example",
+                "ListView",
+                "That",
+                "You",
+                "Can",
+                "Scroll",
+                ".",
+                "It",
+                "Shows",
+                "How",
+                "Any",
+                "Scrollable",
+                "View",
+                "Can",
+                "Be",
+                "Included",
+                "As",
+                "A",
+                "Child",
+                "Of",
                 "SlidingUpPanelLayout"
+
+
         );
 
         // This is the array adapter, it takes the context of the activity as a
