@@ -130,50 +130,84 @@ public class DemoActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(new RecyclerAdapter(this, your_array_list));
 
 
-
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.setPanelSlideListener(new PanelSlideListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-            }
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-            @Override
-            public void onPanelExpanded(View panel) {
-                Log.i(TAG, "onPanelExpanded");
 
-            }
+                if (dy > 0) {
+                    if (mLayout != null) {
+                        if (mLayout.getPanelState() != PanelState.HIDDEN) {
+                            mLayout.setPanelState(PanelState.HIDDEN);
+                        }
+                    }
+                } else {
+                    if (mLayout != null) {
+                        if (mLayout.getPanelState() != PanelState.COLLAPSED) {
+                            mLayout.setPanelState(PanelState.COLLAPSED);
+                        }
+                    }
 
-            @Override
-            public void onPanelCollapsed(View panel) {
-                Log.i(TAG, "onPanelCollapsed");
 
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-                Log.i(TAG, "onPanelAnchored");
-            }
-
-            @Override
-            public void onPanelHidden(View panel) {
-                Log.i(TAG, "onPanelHidden");
+                }
             }
         });
+
+
+        mLayout = (SlidingUpPanelLayout)
+
+                findViewById(R.id.sliding_layout);
+
+        mLayout.setPanelSlideListener(new PanelSlideListener() {
+                                          @Override
+                                          public void onPanelSlide(View panel, float slideOffset) {
+                                              Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+                                          }
+
+                                          @Override
+                                          public void onPanelExpanded(View panel) {
+                                              Log.i(TAG, "onPanelExpanded");
+
+                                          }
+
+                                          @Override
+                                          public void onPanelCollapsed(View panel) {
+                                              Log.i(TAG, "onPanelCollapsed");
+
+                                          }
+
+                                          @Override
+                                          public void onPanelAnchored(View panel) {
+                                              Log.i(TAG, "onPanelAnchored");
+                                          }
+
+                                          @Override
+                                          public void onPanelHidden(View panel) {
+                                              Log.i(TAG, "onPanelHidden");
+                                          }
+                                      }
+
+        );
 
         TextView t = (TextView) findViewById(R.id.name);
-        t.setText(Html.fromHtml(getString(R.string.hello)));
+        t.setText(Html.fromHtml(getString(R.string.hello)
+        ));
         Button f = (Button) findViewById(R.id.follow);
-        f.setText(Html.fromHtml(getString(R.string.follow)));
+        f.setText(Html.fromHtml(getString(R.string.follow)
+
+        ));
         f.setMovementMethod(LinkMovementMethod.getInstance());
         f.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("http://www.twitter.com/umanoapp"));
-                startActivity(i);
-            }
-        });
+                                 @Override
+                                 public void onClick(View v) {
+                                     Intent i = new Intent(Intent.ACTION_VIEW);
+                                     i.setData(Uri.parse("http://www.twitter.com/umanoapp"));
+                                     startActivity(i);
+                                 }
+                             }
+
+        );
     }
 
     @Override
@@ -231,8 +265,7 @@ public class DemoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mLayout != null &&
-                (mLayout.getPanelState() == PanelState.EXPANDED || mLayout.getPanelState() == PanelState.ANCHORED)) {
+        if (mLayout != null && (mLayout.getPanelState() == PanelState.EXPANDED || mLayout.getPanelState() == PanelState.ANCHORED)) {
             mLayout.setPanelState(PanelState.COLLAPSED);
         } else {
             super.onBackPressed();
