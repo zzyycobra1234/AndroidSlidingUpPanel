@@ -1,9 +1,10 @@
 package com.sothree.slidinguppanel.demo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,28 +31,34 @@ import com.sothree.slidinguppanel.demo.adapter.RecyclerAdapter;
 import java.util.Arrays;
 import java.util.List;
 
-public class DemoActivity extends AppCompatActivity {
+public class DemoActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener   {
     private static final String TAG = "DemoActivity";
     RecyclerView mRecyclerView;
     private SlidingUpPanelLayout mLayout;
-    int offset = 1;
-
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private AppBarLayout appBarLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        int srceenHeight = wm.getDefaultDisplay().getHeight();
+//        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+//        int srceenHeight = wm.getDefaultDisplay().getHeight();
 
 
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
 
         ListView lv = (ListView) findViewById(R.id.list);
         mRecyclerView = (RecyclerView) findViewById(R.id.rvUserProfile);
-//        ListView lv2 = (ListView) findViewById(R.id.list2);
-//        LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) lv2.getLayoutParams(); //取控件textView当前的布局参数
-//        linearParams.height = srceenHeight;// 控件的高强制设成20
-//        lv2.setLayoutParams(linearParams);
+
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, 100);
+        mSwipeRefreshLayout.setColorSchemeColors(0xFF887711);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+//        mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
+//                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+//                        .getDisplayMetrics()));
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -155,40 +161,36 @@ public class DemoActivity extends AppCompatActivity {
         });
 
 
-        mLayout = (SlidingUpPanelLayout)
-
-                findViewById(R.id.sliding_layout);
-
+        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mLayout.setPanelState(PanelState.EXPANDED);
         mLayout.setPanelSlideListener(new PanelSlideListener() {
-                                          @Override
-                                          public void onPanelSlide(View panel, float slideOffset) {
-                                              Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                                          }
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+            }
 
-                                          @Override
-                                          public void onPanelExpanded(View panel) {
-                                              Log.i(TAG, "onPanelExpanded");
+            @Override
+            public void onPanelExpanded(View panel) {
+                Log.i(TAG, "onPanelExpanded");
 
-                                          }
+            }
 
-                                          @Override
-                                          public void onPanelCollapsed(View panel) {
-                                              Log.i(TAG, "onPanelCollapsed");
+            @Override
+            public void onPanelCollapsed(View panel) {
+                Log.i(TAG, "onPanelCollapsed");
 
-                                          }
+            }
 
-                                          @Override
-                                          public void onPanelAnchored(View panel) {
-                                              Log.i(TAG, "onPanelAnchored");
-                                          }
+            @Override
+            public void onPanelAnchored(View panel) {
+                Log.i(TAG, "onPanelAnchored");
+            }
 
-                                          @Override
-                                          public void onPanelHidden(View panel) {
-                                              Log.i(TAG, "onPanelHidden");
-                                          }
-                                      }
-
-        );
+            @Override
+            public void onPanelHidden(View panel) {
+                Log.i(TAG, "onPanelHidden");
+            }
+        });
 
         TextView t = (TextView) findViewById(R.id.name);
         t.setText(Html.fromHtml(getString(R.string.hello)
@@ -270,5 +272,28 @@ public class DemoActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 2000);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
     }
 }

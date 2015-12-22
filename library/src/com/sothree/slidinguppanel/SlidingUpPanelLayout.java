@@ -27,7 +27,6 @@ import android.view.animation.Interpolator;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
-import com.nineoldandroids.view.animation.AnimatorProxy;
 import com.sothree.slidinguppanel.library.R;
 
 public class SlidingUpPanelLayout extends ViewGroup {
